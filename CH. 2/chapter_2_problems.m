@@ -51,31 +51,51 @@ figure;
 subplot(2,2,1); stem(n,real(x)); title('signal real part'); axis([-10,10,-10,10]);
 subplot(2,2,2); stem(m,real(xe)); title('conj-symm real part'); axis([-10,10,-10,10]);
 subplot(2,2,3); stem(m,real(xo)); title('conj-antisymm real part'); axis([-10,10,-10,10]);
-
-figure;
-subplot(2,2,1); stem(n,imag(x)); title('signal imag part'); axis([-10,10,-10,10]);
-subplot(2,2,2); stem(m,imag(xe)); title('conj-symm imag part'); axis([-10,10,-10,10]);
-subplot(2,2,3); stem(m,imag(xo)); title('conj-antisymm imag part'); axis([-10,10,-10,10]);
-
 % the figures clearly show how xe and xo sum to the original x function
+
+
+% interestingly, the graphs show (and example 3.6) that a conjugate symmetric
+% sequence will have even symmetry on the magnitude/real part, and odd 
+% symmetry on the angle/imag part
+magX = abs(xe);  % for graphs
+angX = angle(xe);
+realX = real(xe);  % divide into real and imaginary parts
+imagX = imag(xe);
+
+figure('Color', [1 1 1]);
+subplot(2,2,1); plot(m,magX); grid off;
+ title('Magnitude part');
+subplot(2,2,2); plot(m,realX); grid off;
+ title('Real part');
+subplot(2,2,3); plot(m,angX); grid off;
+ title('Angle part');
+subplot(2,2,4); plot(m,imagX); grid off;
+ title('Imaginary part');
+
 
 %% P2.8 
 % The operation of signal dilation (or decimation or down-sampling) is defined by
 %     y(n) = x(nM)
 % in which the sequence x(n) is down-sampled by an integer factor M. For example, if
-%     x(n) = {. . . ,−2, 4,3,−6, 5,−1, 8, . . .}
-%                          ^
+%     x(n) = {. . . ,2,4,3,6,5,1,8, . . .}
+%                        ^
 %  the down-sampled sequences by a factor 2 are given by
-%     y(n) = {. . . ,−2,3, 5, 8, . . .}
-%                       ^
+%     y(n) = {. . . ,2,3,5,8, . . .}
+%                      ^
 % * 1. Develop a MATLAB function dnsample that has the form
 %           function [y,m] = dnsample(x,n,M)
 %      Downsample sequence x(n) by a factor M to obtain y(m)
 %      to implement the above operation. Use the indexing mechanism of MATLAB with
 %      careful attention to the origin of the time axis n = 0.
-% * 2. Generate x(n) = sin(0.125πn), − 50 ≤ n ≤ 50. Decimate x(n) by a factor of 4 to
+% * 2. Generate x(n) = sin(0.125*pi*n),  -50 <= n <= 50. Decimate x(n) by a factor of 4 to
 %      generate y(n). Plot both x(n) and y(n) using subplot and comment on the results.
-% * 3. Repeat the above using x(n) = sin(0.5πn), − 50 ≤ n ≤ 50. Qualitatively discuss the
+% * 3. Repeat the above using x(n) = sin(0.5*pi*n),  -50 <= n <= 50. Qualitatively discuss the
 %      effect of down-sampling on signals.
 
+
+
+%% P2.13
+% for x[n] = cos(0.2*pi*n)+0.5*cos(0.6*pi*n) and echo component aplha(n-k),
+% find:
+% * 1). the 
 
