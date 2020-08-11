@@ -1,3 +1,4 @@
+
 function X = dtft(n,x,k)
 % DESCRIPTION
 %  Performs an approximate Discrete Time Fourier Transform 
@@ -29,17 +30,7 @@ function X = dtft(n,x,k)
 %  better results.
 %
 
-w = (pi/100)*k;  % calculates the evenly spaced frequencies 
-X = x * (exp(-j*pi/100)) .^(n'*k); % calculates the DTFT
+kmax = length(k)-1;
 
-magX = abs(X);  % for graphs
-angX = angle(X);
-realX = real(X);  % divide into real and imaginary parts
-imagX = imag(X);
-
-figure('Color', [1 1 1]);
-subplot(2,2,1); plot(w/pi,magX); grid off;
-xlabel('frequency in units of pi'); title('Magnitude part');
-subplot(2,2,2); plot(w/pi,realX); grid off;
-xlabel('frequency in units of pi'); title('Real part');
-subplot(2,2,3); plot(w/pi,angX); grid off;
+w = (pi/kmax)*k;  % calculates the evenly spaced frequencies 
+X = x * (exp(-j*pi/kmax)) .^(n'*k); % calculates the DTFT
