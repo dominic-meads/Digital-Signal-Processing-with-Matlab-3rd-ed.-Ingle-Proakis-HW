@@ -39,13 +39,12 @@ xlabel('frequency in units of pi'); title('Imaginary part');
 
 n1 = 0:3;
 x1 = [1 2 2 1];
-stem(n1,x1); axis([0 7 -4 4]);
+subplot(2,2,1); stem(n1,x1); title('x1'); axis([0 7 -4 4]); xlabel('sample [n]'); ylabel('x[n]');
 
 n2 = 0:7;
 x2 = [1 2 2 1 1 2 2 1]; 
 %    ( x1[n])(x1[n-4])
-figure;
-stem(n2,x2); axis([0 7 -4 4]);
+subplot(2,2,2); stem(n2,x2); title('x2'); axis([0 7 -4 4]); xlabel('sample [n]'); ylabel('x[n]');
 
 k = 0:200;
 
@@ -54,7 +53,8 @@ X1 = dtft(n1,x1,k);
 X2 = dtft(n2,x2,k);
 
 % check
-w_check = (k*pi)/(length(k)-1);
-X2_check = ones(1,201)*(X1 + exp(-4*j*w_check')*X1);
-figure;
-stem(abs(X2_check));
+w_check = (pi/max(k))*k;
+X2_check = X1 + exp(-4*j*w_check).*X1;  % use element by element multiplication (acts as a scalar)
+subplot(2,2,3); stem(w_check/pi,abs(X2_check)); title('My DTFT (analyzed mathematically'); xlabel('Frequency as a fraction of PI'); ylabel('Magnitude');
+subplot(2,2,4); stem(w_check/pi,abs(X2)); title('MATLAB computed DTFT (computed)'); xlabel('Frequency as a fraction of PI'); ylabel('Magnitude');
+error = max(abs(X2 - X2_check))  % nominal error ~0%
