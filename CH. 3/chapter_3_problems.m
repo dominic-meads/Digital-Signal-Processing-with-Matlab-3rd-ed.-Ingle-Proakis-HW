@@ -1,5 +1,4 @@
 %% P3.1
-
 % see dtft.m
 
 % 4). x[n] = [4,3,2,1,1,2,3,4] plot dtft and comment on angle graph
@@ -56,14 +55,12 @@ X2 = dtft(n2,x2,k);
 % check
 w_check = (pi/max(k))*k;
 X2_check = X1 + exp(-4*j*w_check).*X1;  % use element by element multiplication (acts as a scalar)
-figure;
 subplot(2,2,3); stem(w_check/pi,abs(X2_check)); title('My DTFT (analyzed mathematically'); xlabel('Frequency as a fraction of PI'); ylabel('Magnitude');
 subplot(2,2,4); stem(w_check/pi,abs(X2)); title('MATLAB computed DTFT (computed)'); xlabel('Frequency as a fraction of PI'); ylabel('Magnitude');
 error = max(abs(X2 - X2_check))  % nominal error ~0%
 
 
 %% P3.3
-
 % 1). Find the DTFT of x[n] = 2(0.5)^n * u[n+2]
 
 %     After solving analytically, X(e^jw) = 8e^(2jw) + 4e^(jw) + (2e^jw)/(e^jw - 0.5)
@@ -93,3 +90,22 @@ X_check = 8*exp(2*j*w) + 4*exp(j*w) + (2*exp(j*w))./(exp(j*w)-0.5);  % my answer
 subplot(2,2,3); plot(w/pi,abs(X_check)); title('My Answer (Mag)'); xlabel('w as a fraction of pi'); ylabel('Magnitude'); axis([0 1 0 20]);
 subplot(2,2,4); plot(w/pi,angle(X_check)*180/pi); title('My Answer (Ang)'); xlabel('w as a fraction of pi'); ylabel('Phase (degrees)'); axis([0 1 -200 200]);
 error = max(abs(X-X_check))  % nominal error ~= 0%;
+
+
+%% P3.5
+
+% 1). 
+n1 = -2:2;
+x1 = [2 1 3 1 2];  % answer found mathematically/analytically 
+figure;
+subplot(2,1,1); stem(n1,x1); title('My sequence #1'); axis([-10 10 -5 5]);
+
+% 2).
+n2 = -2:8;
+x2 = [4 0 0 0 -3 1 -3 0 0 0 4];
+subplot(2,1,2); stem(n2,x2); title('My sequence #2'); axis([-10 10 -5 5]);
+
+
+%% P3.6 
+
+% 1). Time domain equation is sin(pi*n/3)/(pi*n) -- like a sinc function
