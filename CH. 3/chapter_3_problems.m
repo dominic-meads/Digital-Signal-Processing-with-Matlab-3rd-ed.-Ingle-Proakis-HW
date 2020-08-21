@@ -109,3 +109,39 @@ subplot(2,1,2); stem(n2,x2); title('My sequence #2'); axis([-10 10 -5 5]);
 %% P3.6 
 
 % 1). Time domain equation is sin(pi*n/3)/(pi*n) -- like a sinc function
+% 5). working on it ;p
+
+%% P3.8
+
+n = -25:25;
+k = -500:500;
+w = k*pi/max(k);
+x = exp(j*0.1*pi*n).*(stepseq(0,-25,25) - stepseq(20,-25,25));  % time domain sequence
+% split time domain sequence into real and imaginary parts
+xr = real(x);
+xi = j*imag(x);
+
+X = dtft(n,x,k);
+[Xe Xo m] = evenodd_conj(X,k);  % decompose into conjugate symmetric and conjugate-antisymmetric parts (m is the same as k for this case)
+% the evenodd_conj function was developed in chapter 2 :)
+
+figure; 
+subplot(2,2,1); plot(w/pi,abs(X)); title('DTFT'); xlabel('omega as a fraction of pi'); ylabel('Magnitude');
+subplot(2,2,2); plot(w/pi,angle(X)); title('DTFT'); xlabel('omega as a fraction of pi'); ylabel('Phase (radians)');
+subplot(2,2,3); plot(w/pi,Xe); title('DTFT (REAL)'); xlabel('omega as a fraction of pi'); ylabel('Magnitude');
+subplot(2,2,4); plot(w/pi,Xo); title('DTFT (IMAGINARY)'); xlabel('omega as a fraction of pi'); ylabel('Magnitude');
+
+Xe_check = dtft(n,xr,k);  % take the DTFT of real(x) to see if it is equal to the conjugate-symmetric part of X(e^jw)
+error_even = max(abs(Xe_check-Xe))  % 0 error
+
+Xo_check = dtft(n,xi,k);  % take the DTFT of imaginary(x) to see if it is equal to the conjugate-antisymmetric part of X(e^jw)
+error_odd = max(abs(Xo_check-Xo))  % 0 error
+
+% The above shows that the DTFT of both xr(real x) and xi(j*imaginary x) is
+% equal to the conjugate-symmetric and conjugate-antisymmetric components 
+% (respectivley) of the DTFT of x. This also shows the opposite, if you 
+% have a time domain series x, and take the DTFT of that (X), 
+% by splitting X into its conjugate-symmetric and conjugate-antisymmetric
+% parts, and taking the IDTFT of those induvidual parts, your result will
+% be the real parts of the time domain sequence, and j times the imaginary
+% parts of the time domain sequence (respectivley)
