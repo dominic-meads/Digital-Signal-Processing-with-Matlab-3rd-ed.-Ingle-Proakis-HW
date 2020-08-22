@@ -109,7 +109,7 @@ subplot(2,1,2); stem(n2,x2); title('My sequence #2'); axis([-10 10 -5 5]);
 %% P3.6 
 
 % 1). Time domain equation is sin(pi*n/3)/(pi*n) -- like a sinc function
-% 5). working on it ;p
+% 5). I think zero?
 
 %% P3.8
 
@@ -145,3 +145,32 @@ error_odd = max(abs(Xo_check-Xo))  % 0 error
 % parts, and taking the IDTFT of those induvidual parts, your result will
 % be the real parts of the time domain sequence, and j times the imaginary
 % parts of the time domain sequence (respectivley)
+
+
+
+
+
+%% P3.16
+% see freqresp.m
+
+
+%% P3.17
+
+% 1).  LPF with poor stopband attenuation (fc ~= .038)
+b1 = [.2 .2 .2 .2 .2];
+a1 = zeros(1,length(b1));  % no 'a' coefficients
+k = 0:500;
+w = k*pi/max(k);
+H1 = freqresp(b1,a1,w);
+figure;
+subplot(1,2,1); plot(w/pi,abs(H1)); sgtitle('problem 1'); title('Frequency Response (Magnitude)'); xlabel('frequency as a fraction of pi'); ylabel('magnitude');
+subplot(1,2,2); plot(w/pi,angle(H1)*180/pi); title('Frequency Response (angle)'); xlabel('frequency as a fraction of pi'); ylabel('phase (degrees)');
+
+% 2).  Bandpass ( 0.24 <= fpassband <= 0.43)
+b2 = [1 0 -2];
+a2 = [0 -0.95 0.9025];
+H2 = freqresp(b2,a2,w);
+figure;
+subplot(1,2,1); plot(w/pi,abs(H2)/max(abs(H2))); sgtitle('problem 2'); title('Frequency Response (Magnitude)'); xlabel('frequency as a fraction of pi'); ylabel('magnitude');
+subplot(1,2,2); plot(w/pi,angle(H2)*180/pi); title('Frequency Response (angle)'); xlabel('frequency as a fraction of pi'); ylabel('phase (degrees)');
+
