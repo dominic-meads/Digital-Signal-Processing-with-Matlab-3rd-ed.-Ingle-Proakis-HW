@@ -109,7 +109,29 @@ subplot(2,1,2); stem(n2,x2); title('My sequence #2'); axis([-10 10 -5 5]);
 %% P3.6 
 
 % 1). Time domain equation is sin(pi*n/3)/(pi*n) -- like a sinc function
-% 5). I think zero?
+% 5). cos(pi*[n-10])/[n-10]
+
+n = -10:10;
+k = -500:500;
+w = k*pi/max(k);
+
+x_c = [-0.1 0.111111 -0.125 0.142857 -0.166666 0.2 -0.25 0.333333 -0.5 1 0 -1 0.5 -0.333333 0.25 -0.2 0.166666 -0.142857 0.125 -0.111111 0.1];  % calculated with calculator
+x = cos(pi*(n))./(n);  % my answer found analytically
+x(21) = 0; 
+error = max(abs(x-x_c))  % nominal error
+
+% show both dtfts match up
+X_c = dtft(n,x_c,k);
+X = dtft(n,x,k);
+figure;
+plot(w/pi,abs(X_c));
+figure;
+plot(w/pi,abs(X));
+
+% note I forgot to add in time shift of -10 samples (n-10) but the analytic
+% and mathematical answers would still match up with one another
+
+
 
 %% P3.8
 
@@ -173,4 +195,7 @@ H2 = freqresp(b2,a2,w);
 figure;
 subplot(1,2,1); plot(w/pi,abs(H2)/max(abs(H2))); sgtitle('problem 2'); title('Frequency Response (Magnitude)'); xlabel('frequency as a fraction of pi'); ylabel('magnitude');
 subplot(1,2,2); plot(w/pi,angle(H2)*180/pi); title('Frequency Response (angle)'); xlabel('frequency as a fraction of pi'); ylabel('phase (degrees)');
+
+
+
 
