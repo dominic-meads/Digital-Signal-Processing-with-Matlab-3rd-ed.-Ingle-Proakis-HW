@@ -109,7 +109,8 @@ subplot(2,1,2); stem(n2,x2); title('My sequence #2'); axis([-10 10 -5 5]);
 %% P3.6 
 
 % 1). Time domain equation is sin(pi*n/3)/(pi*n) -- like a sinc function
-% 5). cos(pi*[n-10])/[n-10]
+% 5).     { cos(pi*[n-10])/[n-10], n != 0
+%         { 0, n = 0
 
 n = -10:10;
 k = -500:500;
