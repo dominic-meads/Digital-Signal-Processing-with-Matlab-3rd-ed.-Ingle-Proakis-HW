@@ -52,3 +52,46 @@ w = k*pi/500;
 H = freqz(b,a,w);
 plot(w/pi,abs(H));
 figure; plot(w/pi,angle(H));
+
+%% Ex. 4.15
+
+% solve the difference equation:
+% 
+%   y(n) = 1/3[x(n) + x(n-1) + x(n-2)] + 0.95*y(n-1) - 0.9025*y(n-2)  n>=0
+% 
+% with the initial conditions
+% 
+%   y(-1) = -2
+%   y(-2) = -3
+%   x(-1) = 1
+%   x(-2) = 1
+% and
+%
+%   x(n) = cos(pi*n/3)*u(n)
+%
+
+% time domain coefficients
+b = [1 1 1]/3;
+a = [1 -0.95 0.9025];
+
+% initial conditions
+X = [1 1];
+Y= [-2 -3];
+xic = filtic(b,a,Y,X)  % filtic is included in signal processing toolbox and calculates xic(z)
+
+% X(z) z transform coefficients (one-sided z transform)
+bxplus = [1 -0.5];
+axplus = [1 -1 1];
+
+% convolution can be used to multiply two NON-CAUSAL z-domain polynomials
+% get Y(z) coefficients
+ayplus = conv(a,axplus)
+byplus = conv(b,bxplus) + conv(xic,axplus) % add the conv(xic,axplus) becuase of initial condition term
+
+% calulate function using Partial Fraction Expansion
+[R,p,C] = residuez(byplus,ayplus)
+
+% find respective magnitudes and phases
+Mp = abs(p)
+Ap = angle(p)/pi
+
