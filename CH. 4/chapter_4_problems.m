@@ -82,9 +82,36 @@ ax = [1 -1.2728 0.81];
 x_check = filter(bx,ax,deltax);
 error_x = max(abs(x_check-x))
 
-% % verify calculated Y(z), take inverse z-transform and check with y 
+% verify calculated Y(z), take inverse z-transform and check with y 
 by = [1 0 -0.6364 0 0];
 ay = [1 0 -1.2728 0 0.81];
 [deltay,ny] = impseq(0,0,100);
 y_check = filter(by,ay,deltay);
 error_y = max(abs(y_check-y))
+
+%% P4.3
+%
+% determine the z-transform of the following functions using properties of
+% the z-transform and the table of z-transform pairs. Express X(z) as a
+% rational function in z^-1. Verify results in MATLAB and plot poles and
+% zeros
+
+% 1). x(n) = 2*delta(n-2) + 3*u(n-3)  -- note: casaul by definition
+%
+%             2z^-2 - z^-3
+%      X(z) = ------------  ROC |z| > 1
+%               1 - z^-1
+
+% verify z-transform by taking the inverse z-transform and checking the
+% first 50 samples of x(n) from above, and the x(n) output from the inverse
+% z-transform
+b1 = [0 0 2 -1];
+a1 = [1 -1 0 0];
+[delta1,n1] = impseq(0,0,49);
+x1 = filter(b1,a1,delta1);
+[x1_check1,ncheck11] = impseq(2,0,49);
+[x1_check2,ncheck12] = stepseq(3,0,49);
+x1_check = 2*x1_check1 + 3*x1_check2;stem(ncheck11,x1_check);
+error = max(abs(x1_check-x1))
+
+
