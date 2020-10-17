@@ -105,13 +105,35 @@ error_y = max(abs(y_check-y))
 % verify z-transform by taking the inverse z-transform and checking the
 % first 50 samples of x(n) from above, and the x(n) output from the inverse
 % z-transform
-b1 = [0 0 2 -1];
+b1 = [0 0 2 1];
 a1 = [1 -1 0 0];
 [delta1,n1] = impseq(0,0,49);
 x1 = filter(b1,a1,delta1);
-[x1_check1,ncheck11] = impseq(2,0,49);
-[x1_check2,ncheck12] = stepseq(3,0,49);
-x1_check = 2*x1_check1 + 3*x1_check2;stem(ncheck11,x1_check);
-error = max(abs(x1_check-x1))
+[x1_check1,ncheck11] = impseq(2,0,49);  % generate the delta function separatley
+[x1_check2,ncheck12] = stepseq(3,0,49);  % generate the unit-step function separatley
+x1_check = 2*x1_check1 + 3*x1_check2;
+errorx1 = max(abs(x1_check-x1))
+figure; 
+subplot(2,2,1); zplane(b1,a1); title('P4.3.1 Poles and Zeros'); xlabel('Real'); ylabel('Imaginary');
+
+
+% 2). x(n) = 3*(0.75)^n * cos(0.3*pi*n)*u(n) + 4*(0.75)^n * sin(0.3*pi*n)*u(n)
+%
+%                   3 + 1.0948z^-1
+%      X(z) = ---------------------------    ROC |z| > 0.75
+%             1 - 0.8817z^-1 + 0.5625z^-2
+
+% verify z-transform by taking the inverse z-transform and checking the
+% first 50 samples of x(n) from above, and the x(n) output from the inverse
+% z-transform
+b2 = [3 1.0948 0];
+a2 = [1 -0.8817 0.5625];
+[delta2,n2] = impseq(0,0,49);
+x2 = filter(b2,a2,delta2);
+[x2_check1,ncheck21] = stepseq(0,0,49);  % generate the unit-step function separatley
+x2_check = 3*((0.75).^ncheck21).*cos(0.3*pi*ncheck21).*x2_check1 + 4*((0.75).^ncheck21).*sin(0.3*pi*ncheck21).*x2_check1;
+errorx2 = max(abs(x2_check-x2))
+subplot(2,2,2); zplane(b2,a2); title('P4.3.2 Poles and Zeros'); xlabel('Real'); ylabel('Imaginary');
+
 
 
