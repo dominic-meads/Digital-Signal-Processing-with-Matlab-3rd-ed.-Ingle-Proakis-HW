@@ -20,9 +20,9 @@
 a2 = [1 -0.8 0];
 b2 = [0 0 0.64];
 [delta2,n2] = impseq(0,0,7);
-x2 = filter(b2,a2,delta2)
+x2 = filter(b2,a2,delta2);
 [x2checkpart1,n2_1] = stepseq(2,0,7); 
-x2check = (0.8.^n2) .* x2checkpart1
+x2check = (0.8.^n2) .* x2checkpart1;
 
 error1 = max(abs(x2check-x2))  % no error, the z-transform above is the same
 
@@ -31,9 +31,9 @@ error1 = max(abs(x2check-x2))  % no error, the z-transform above is the same
 a3 = [1 -6 9];
 b3 = [3 0 0];
 [delta3,n3] = impseq(0,0,7);
-x3 = filter(b3,a3,delta3)
+x3 = filter(b3,a3,delta3);
 [x3checkpart1,n3_1] = stepseq(0,0,7); 
-x3check = ((n3+1).*(3.^n3)).* x3checkpart1
+x3check = ((n3+1).*(3.^n3)).* x3checkpart1;
 error1 = max(abs(x3check-x3))  % no error, the z-transform above is the same
 
 %% P4.2
@@ -133,7 +133,20 @@ x2 = filter(b2,a2,delta2);
 [x2_check1,ncheck21] = stepseq(0,0,49);  % generate the unit-step function separatley
 x2_check = 3*((0.75).^ncheck21).*cos(0.3*pi*ncheck21).*x2_check1 + 4*((0.75).^ncheck21).*sin(0.3*pi*ncheck21).*x2_check1;
 errorx2 = max(abs(x2_check-x2))
+% figure; stem(x2); hold on; stem(x2_check);  % error slightly noticable
 subplot(2,2,2); zplane(b2,a2); title('P4.3.2 Poles and Zeros'); xlabel('Real'); ylabel('Imaginary');
+
+
+% 3). I attempted it but failed :(
+b3 = [0, 0.866, 0.0306, -1.5069, 2.8809, -2.8059, 0.81];
+a3 = [1, -4.3641, 8.1177, -7.9641, 4.1177, -0.9, 0];
+[delta3,n3] = impseq(0,0,49);
+x3 = filter(b3,a3,delta3);
+[x3_check1,ncheck31] = stepseq(0,0,49);  % generate the unit-step function separatley
+[x3_check2,ncheck32] = stepseq(2,0,49);  % generate the unit-step function separatley
+x3_check = ncheck31.*sin(pi*ncheck31./3).*x3_check1 + ((0.9).^ncheck31).*x3_check2;
+errorx3 = max(abs(x3_check-x3))
+subplot(2,2,3); zplane(b3,a3); title('P4.3.3 Poles and Zeros'); xlabel('Real'); ylabel('Imaginary');
 
 
 
