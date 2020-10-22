@@ -145,8 +145,49 @@ x3 = filter(b3,a3,delta3);
 [x3_check1,ncheck31] = stepseq(0,0,49);  % generate the unit-step function separatley
 [x3_check2,ncheck32] = stepseq(2,0,49);  % generate the unit-step function separatley
 x3_check = ncheck31.*sin(pi*ncheck31./3).*x3_check1 + ((0.9).^ncheck31).*x3_check2;
-errorx3 = max(abs(x3_check-x3))
+errorx3 = max(abs(x3_check-x3))  %% wayyyyy to large 
 subplot(2,2,3); zplane(b3,a3); title('P4.3.3 Poles and Zeros'); xlabel('Real'); ylabel('Imaginary');
+
+
+%% P4.5
+
+% given Z{x[n]} = X(z) = 1/(1+0.5z^-1)   |z| >= 0.5
+% find the z-transform of the following expressions
+
+% 1). x1[n] = x[3-n] + x[n-3]
+
+%               z^3 + 0.5z^2 + z^-3 + 0.5z^-4
+%       X1(z) = -----------------------------     |z| >= 2
+%                  0.5z + 1.25 + 0.5z^-1
+
+% MATLAB check ERROR LINE 188 First denominator filter coefficient must be non-zero.
+% first, find the original x[n] by numerically with the inverse z-transform
+b = [1 0];
+a = [1, 0.5];
+[delta,n] = impseq(0,0,49);  
+x = filter(b,a,delta);
+
+% now make x1
+x1 = zeros(1,50);  % assumes system is causal
+for i = 1:50
+    if (3-i <= 0)
+        if (i-3 <= 0)
+            x1 = 0;
+        else
+            x1(i) = 0 + x(i-3);
+        end  % if (i-3...
+    elseif (3-i > 0 && i-3 > 0)    
+        x1(i) = x(3-i) + x(i-3);
+    end  %if (3-i...
+end  % for i = 1:50
+
+% find inverse z-transform of X1(z) and test with x1[n]
+b2 = [1 0.5 0 0 0 0 1 0.5];
+a2 = [0 0 0.5 1.25 0.5 0 0 0];
+[delta2,n2] = impseq(0,0,49);
+x1_check = filter(b2,a2,delta2);
+errorx1 = max(abs(x1_check-x1))
+figure; zplane(b2,a2); title('P4.5.1 Poles and Zeros'); xlabel('Real'); ylabel('Imaginary');
 
 
 
