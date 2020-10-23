@@ -1,5 +1,5 @@
 # Digital-Signal-Processing-with-Matlab-3rd-ed.-Ingle-Proakis-HW
-Some answers/solutions to the problems after each chapter. 
+Some of my answers/solutions to the problems after each chapter. 
 
 Here is the MATLAB link for the functions used in the book:
 
