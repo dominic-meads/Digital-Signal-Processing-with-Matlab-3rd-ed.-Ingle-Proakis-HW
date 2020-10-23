@@ -36,7 +36,7 @@ b3 = [3 0 0];
 x3 = filter(b3,a3,delta3);
 [x3checkpart1,n3_1] = stepseq(0,0,7); 
 x3check = ((n3+1).*(3.^n3)).* x3checkpart1;
-error1 = max(abs(x3check-x3))  % no error, the z-transform above is the same
+error1 = max(abs(x3check-x3))  % no error, the z-transform above is the sam
 
 %% P4.2
 clear all;
