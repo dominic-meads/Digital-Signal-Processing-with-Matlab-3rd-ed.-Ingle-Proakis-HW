@@ -1,4 +1,6 @@
-%% P4.1
+%% P4.1 
+clear all;
+clc;
 % determine z transform and ROC of following expressions:
 %
 % 1).  x(n) = [3 2 1 -2 -3] (origin at x(n) = 1)
@@ -37,6 +39,8 @@ x3check = ((n3+1).*(3.^n3)).* x3checkpart1;
 error1 = max(abs(x3check-x3))  % no error, the z-transform above is the same
 
 %% P4.2
+clear all;
+clc;
 % Given x(n) = (0.9)^n * cos(pi*n/4) * u(n)
 % and
 %               [  x(n/2), n = 0, +-2, +-4, ...
@@ -90,6 +94,8 @@ y_check = filter(by,ay,deltay);
 error_y = max(abs(y_check-y))
 
 %% P4.3
+clear all;
+clc;
 %
 % determine the z-transform of the following functions using properties of
 % the z-transform and the table of z-transform pairs. Express X(z) as a
@@ -150,6 +156,8 @@ subplot(2,2,3); zplane(b3,a3); title('P4.3.3 Poles and Zeros'); xlabel('Real'); 
 
 
 %% P4.5
+clear all;
+clc;
 
 % given Z{x[n]} = X(z) = 1/(1+0.5z^-1)   |z| >= 0.5
 % find the z-transform of the following expressions
@@ -188,6 +196,81 @@ a2 = [0 0 0.5 1.25 0.5 0 0 0];
 x1_check = filter(b2,a2,delta2);
 errorx1 = max(abs(x1_check-x1))
 figure; zplane(b2,a2); title('P4.5.1 Poles and Zeros'); xlabel('Real'); ylabel('Imaginary');
+
+
+%% P4.11.1
+clear all;
+clc;
+%
+% using partial fraction expansion, find the inverse z-transform of 
+%
+%                    1 - z^-1 -4z^-2 + 4z^-3
+% 1). X1(z) = --------------------------------------   sequence right-sided
+%             1 - (11/4)z^-1 + (13/8)z^-2 -(1/4)z^-3
+
+
+b = [1 -1 -4 4];
+a = [1 -11/4 13/8 -0.25];
+[R p C] = residuez(b,a)
+
+% x1[n] = u[n](-10(0.5)^n + 27(0.25)^n) - 16*delta[n]
+
+% MATLAB check;
+[delta,n] = impseq(0,0,49);
+x1 = filter(b,a,delta);
+[x1_check1,ncheck11] = impseq(0,0,49);  % generate the delta function separatley
+[x1_check2,ncheck12] = stepseq(0,0,49);  % generate the unit-step function separatley
+x1_check = x1_check2.*(-10*(0.5).^ncheck11 + 27*(0.25).^ncheck11) - 16.*x1_check1;
+errorx1 = max(abs(x1_check-x1))  % ANSWER CORRECT
+
+
+%% P4.15.1
+clear all;
+clc;
+%
+% Given h[n] = 5(1/4)^n * u[n]
+
+% i). Find H(z)
+%                      5
+%         H(z) = ------------    |z| > 0.25
+%                1 - 0.25z^-1
+
+% ii). Find the difference equation representation
+%
+%         y[n] - 0.25*y[n-1] = 5*x[n]
+
+% iii). Plot the poles and Zeros
+b = [5 0];
+a = [1 -0.25];
+figure; zplane(b,a);
+
+% iv). find the output y[n] if x[n] = (1/4)^n * u[n]
+b1 = [5 0 0];
+a1 = [1 -0.5 0.0625];
+[R p C] = residuez(b1,a1)
+%        y[n] = 5(1/4)^n * u[n]
+%        the output is just scaled by 5
+
+% MATLAB check for part iv
+n = 0:7; 
+x = (1/4).^n;
+xic = 0;  % no intial conditions on x[n]
+y = filter(b,a,x,xic)
+
+ycheck = 5*(0.25).^n
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
