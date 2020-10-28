@@ -36,7 +36,7 @@ b3 = [3 0 0];
 x3 = filter(b3,a3,delta3);
 [x3checkpart1,n3_1] = stepseq(0,0,7); 
 x3check = ((n3+1).*(3.^n3)).* x3checkpart1;
-error1 = max(abs(x3check-x3))  % no error, the z-transform above is the sam
+error1 = max(abs(x3check-x3))  % no error, the z-transform above is the same
 
 %% P4.2
 clear all;
@@ -239,7 +239,7 @@ clc;
 %
 %         y[n] - 0.25*y[n-1] = 5*x[n]
 
-% iii). Plot the poles and Zeros
+% iii). Plot the poles and Zeros of the impulse response
 b = [5 0];
 a = [1 -0.25];
 figure; zplane(b,a);
@@ -249,16 +249,41 @@ b1 = [5 0 0];
 a1 = [1 -0.5 0.0625];
 [R p C] = residuez(b1,a1)
 %        y[n] = 5(1/4)^n * u[n]
-%        the output is just scaled by 5
+%        the output is just scaled by 5?
 
 % MATLAB check for part iv
-n = 0:7; 
-x = (1/4).^n;
-xic = 0;  % no intial conditions on x[n]
-y = filter(b,a,x,xic)
+n = 0:50;  % compare first 50 samples
+x = (1/4).^n;  
+y = filter(b,a,x);  
 
-ycheck = 5*(0.25).^n
+ycheck =  5*(0.25).^n;
 
+error = max(abs(y-ycheck))
+
+
+%% P4.18.1
+clear all;
+clc;
+% given y[n] = [x[n] + 2x[n-1] + x[n-3]]/4
+
+% i). Find the impulse response representation
+%       h[n] = 0.25*delta[n] + 0.5*delta[n-1] + 0.25*delta[n-3]  or
+%       h[n] = [0.25 0.5 0 0.25]
+
+% ii). Find the system function
+%       H(z) = 0.25 + 0.5z^-1 + 0.25z^-3
+
+% iii). Plot the poles and zeros
+b = [0.25 0.5 0 0.25];
+a = [1 0 0 0];
+figure; zplane(b,a);
+
+% iv). Find the output y[n] if x[n] = 2(0.9)^n * u[n]
+n = 0:4; 
+x = 2*(0.9).^n;
+y = filter(b,a,x);
+ycheck = [0.5 1.45 1.305 1.6745 1.5705];  % found first 5 samples using long division
+error = max(abs(y-ycheck))
 
 
 
