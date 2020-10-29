@@ -245,21 +245,16 @@ a = [1 -0.25];
 figure; zplane(b,a);
 
 % iv). find the output y[n] if x[n] = (1/4)^n * u[n]
-b1 = [5 0 0];
-a1 = [1 -0.5 0.0625];
-[R p C] = residuez(b1,a1)
-%        y[n] = 5(1/4)^n * u[n]
-%        the output is just scaled by 5?
-
-% MATLAB check for part iv
 n = 0:50;  % compare first 50 samples
 x = (1/4).^n;  
-y = filter(b,a,x);  
+y = filter(b,a,x); 
 
-ycheck =  5*(0.25).^n;
-
-error = max(abs(y-ycheck))
-
+% for the check, do a convolution (partial fraction decomposition isnt
+% quite as straight forward as it looks due to the multiplicity of the
+% poles): https://dsp.stackexchange.com/questions/71092/single-sided-z-transform-with-difference-equations-and-the-system-function/71093#71093
+h = 5*(1/4).^n;
+ycheck = conv(x,h);
+error = max(abs(y-ycheck(1:51)))  % convolution returns length of length(x)+length(h)+1, so compare only first 51 samples (length of y)
 
 %% P4.18.1
 clear all;
@@ -284,8 +279,6 @@ x = 2*(0.9).^n;
 y = filter(b,a,x);
 ycheck = [0.5 1.45 1.305 1.6745 1.5705];  % found first 5 samples using long division
 error = max(abs(y-ycheck))
-
-
 
 
 
