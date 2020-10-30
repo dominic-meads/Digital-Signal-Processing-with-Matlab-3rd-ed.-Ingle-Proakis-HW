@@ -282,7 +282,7 @@ ycheck = [0.5 1.45 1.305 1.6745 1.5705];  % found first 5 samples using long div
 error = max(abs(y-ycheck))
 
 
-%% P4.19
+%% P4.23
 
 b = [1.42857 -1.23714 1.486 -1.134]
 a = [1 -0.7 -1 0.7]
