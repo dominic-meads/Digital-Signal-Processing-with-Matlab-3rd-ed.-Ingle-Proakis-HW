@@ -256,6 +256,7 @@ h = 5*(1/4).^n;
 ycheck = conv(x,h);
 error = max(abs(y-ycheck(1:51)))  % convolution returns length of length(x)+length(h)+1, so compare only first 51 samples (length of y)
 
+
 %% P4.18.1
 clear all;
 clc;
@@ -279,6 +280,27 @@ x = 2*(0.9).^n;
 y = filter(b,a,x);
 ycheck = [0.5 1.45 1.305 1.6745 1.5705];  % found first 5 samples using long division
 error = max(abs(y-ycheck))
+
+
+%% P4.19
+
+b = [1.42857 -1.23714 1.486 -1.134]
+a = [1 -0.7 -1 0.7]
+[delta,nd] = impseq(1,0,10);
+y_check = filter(b,a,delta);
+
+n = 3:6;
+y = zeros(1,6);
+y(1) = 2;  % y(-2), MATLAB cant handle indecies less than 1
+y(2) = 2;  % y(-1), MATLAB cant handle indecies less than 1
+
+x = zeros(1,6);
+nx = [-2 -1 0 1 2 3];
+x = 0.7.^nx;
+x(1) = 0;
+x(2) = 1.42857;
+
+y = 0.81*y(n-2) + x(n) - x(n-1)
 
 
 
