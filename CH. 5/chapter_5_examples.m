@@ -84,3 +84,30 @@ error4 = max(abs(x4-x4n))
 % increasing N results in a lower amount of copies (aliasing) in the time
 % domain. Also, a higher N results in a more accurate reconstruction (lower
 % error when compared to the time domain signal of the same index n.
+
+
+%% Ex. 5.6 
+clc;
+clear all;
+%         { 1, 0 <= n <= 3
+%  x[n] = { 0, otherwise
+%
+% a). compute the DTFT and plot magnitude and phase
+%
+%        X(e^jw) = 1 + e^-jw + e^-2jw
+%
+x = ones(1,4);
+n = 0:3;
+k = 0:500;  % 500 divisions of w
+w = pi*k/max(k);
+X = dtft(n,x,k);
+figure;
+subplot(2,1,1); plot(w/pi,abs(X)); title('Magnitude of DTFT'); xlabel('frequency in units of pi'); ylabel('Magnitude');
+subplot(2,1,2); plot(w/pi,angle(X)*180/pi); title('Phase of DTFT'); xlabel('frequency in units of pi'); ylabel('Phase (degrees)');
+
+% b). Compute the 4 point DFT of x[n]
+%
+%        X(k) = [4 0 0 0]
+%
+N = 4;  % 4 points
+Xk = dft(x,N)
