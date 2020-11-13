@@ -1,4 +1,3 @@
-
 function X = dtft(n,x,k)
 % DESCRIPTION
 %  Performs an approximate Discrete Time Fourier Transform 
@@ -32,5 +31,6 @@ function X = dtft(n,x,k)
 
 kmax = length(k)-1;
 
-w = (pi/kmax)*k;  % calculates the evenly spaced frequencies 
-X = x * (exp(-j*pi/kmax)) .^(n'*k); % calculates the DTFT
+w = (2*pi/kmax)*k;  % calculates the evenly spaced frequencies 
+X = x * (exp(-j*2*pi/kmax)) .^(n'*k); % calculates the DTFT
+end
