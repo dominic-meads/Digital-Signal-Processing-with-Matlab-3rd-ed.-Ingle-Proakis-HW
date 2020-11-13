@@ -99,7 +99,7 @@ clear all;
 x = ones(1,4);
 n = 0:3;
 k = 0:500;  % 500 divisions of w
-w = pi*k/max(k);
+w = 2*pi*k/max(k);
 X = dtft(n,x,k);
 figure;
 subplot(2,1,1); plot(w/pi,abs(X)); title('Magnitude of DTFT'); xlabel('frequency in units of pi'); ylabel('Magnitude');
@@ -110,4 +110,30 @@ subplot(2,1,2); plot(w/pi,angle(X)*180/pi); title('Phase of DTFT'); xlabel('freq
 %        X(k) = [4 0 0 0]
 %
 N = 4;  % 4 points
-Xk = dft(x,N)
+Xk = dft(x,N);
+
+
+%% Ex. 5.9
+clc
+clear all
+%
+% a). determine and plot x((-n))11 given x[n] = 10(0.8)^n  0 <= n <= 10
+%
+n = 0:10;
+xn = 10*(0.8).^n
+xnegn = xn(mod(-n,11)+1)
+figure;
+subplot(2,1,1); stem(n,xn); title('x[n]'); ylabel('x[n]'); xlabel('sample (n)'); axis([-1 12 -1 12]);
+subplot(2,1,2); stem(n,xnegn); title('x[n] circular folded'); ylabel('x((-n))_{N}'); xlabel('sample (n)'); axis([-1 12 -1 12]);
+%
+% b). verify the circular folding property
+X = dft(xn,11);
+Xnegk = dft(xnegn,11);
+figure; 
+subplot(2,2,1); stem(n,real(X)); title('Real{DFT[x(n)]}');
+subplot(2,2,2); stem(n,imag(X)); title('Imagniary{DFT[x(n)]}');
+subplot(2,2,3); stem(n,real(Xnegk)); title('Real{DFT[x((-n))_{11}]}');
+subplot(2,2,4); stem(n,imag(Xnegk)); title('Imaginary{DFT[x((-n))_{11}]}');
+% notice the circular shifting where when n = 0, both X and Xnegk are the
+% same, however, just as in the book description, the next indecies are flipped
+% from left to right
