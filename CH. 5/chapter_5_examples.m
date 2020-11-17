@@ -121,7 +121,7 @@ clear all
 %
 n = 0:10;
 xn = 10*(0.8).^n
-xnegn = xn(mod(-n,11)+1)
+xnegn = xn(mod(-n,11)+1)  % the addition of 1 is because MATLAB starts indexing at 1 not 0
 figure;
 subplot(2,1,1); stem(n,xn); title('x[n]'); ylabel('x[n]'); xlabel('sample (n)'); axis([-1 12 -1 12]);
 subplot(2,1,2); stem(n,xnegn); title('x[n] circular folded'); ylabel('x((-n))_{N}'); xlabel('sample (n)'); axis([-1 12 -1 12]);
@@ -137,3 +137,5 @@ subplot(2,2,4); stem(n,imag(Xnegk)); title('Imaginary{DFT[x((-n))_{11}]}');
 % notice the circular shifting where when n = 0, both X and Xnegk are the
 % same, however, just as in the book description, the next indecies are flipped
 % from left to right
+
+%% Ex. 
