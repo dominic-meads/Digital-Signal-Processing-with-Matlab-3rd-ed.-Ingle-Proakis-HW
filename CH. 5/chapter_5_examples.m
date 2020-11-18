@@ -138,4 +138,25 @@ subplot(2,2,4); stem(n,imag(Xnegk)); title('Imaginary{DFT[x((-n))_{11}]}');
 % same, however, just as in the book description, the next indecies are flipped
 % from left to right
 
-%% Ex. 
+%% Ex. 5.11 a). 
+clc
+clear all
+
+n = 0:10;
+xn = 10*(0.8).^n;
+figure; 
+subplot(2,2,1); stem(n,xn); title('x[n]'); ylabel('x[n]'); xlabel('n'); axis([-5 20 -1 11]);
+
+nperiodic = -5:20;  %% periodic extension
+xnperiodic = [xn(7:11) xn xn(1:10)];
+subplot(2,2,2); stem(nperiodic,xnperiodic); title('Periodic extension of x[n] (xbar[n])'); ylabel('xbar[n]'); xlabel('n'); axis([-5 20 -1 11]);
+
+xnperiodic_shift = [xn(11) xn xn xn(1:3)];
+subplot(2,2,3); stem(nperiodic,xnperiodic_shift); title('Periodic shift of xbar[n]'); ylabel('xbar[n+4]'); xlabel('n'); axis([-5 20 -1 11]);
+
+xncircular_shift = xnperiodic_shift(6:16);
+subplot(2,2,4); stem(n,xncircular_shift); title('Circular shift of x[n] (windowed xbar[n+4])'); ylabel('x[n+4]'); xlabel('n'); axis([-5 20 -1 11]);
+
+% a circular shift is just like a circular shift register 
+
+
