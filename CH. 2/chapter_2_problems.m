@@ -5,6 +5,7 @@
 % * 1) 3*delta(n+2) + 2*delta(n) - delta(n-3) + 5*delta(n-7) -- -5 <= n <= 15
 % * 2) 10*u(n) - 5*u(n-5) - 10*u(n-10) + 5*u(n-15) -- -5 <= n <= 15
 % * 3) 5*cos(0.49*pi*n) + 5*cos(0.51*pi*n) -- -200 <= n <= 200
+% * 4) e^0.1*n[u(n+20) - u(n-10)]
 
 n1 = -5:15;
 x1 = 3*impseq(-2,-5,15)+2*impseq(0,-5,15)-impseq(3,-5,15)+5*impseq(7,-5,15);
@@ -12,11 +13,40 @@ n2 = -5:15;
 x2 = 10*stepseq(0,-5,15)-5*stepseq(5,-5,15)-10*stepseq(10,-5,15)+5*stepseq(15,-5,15);
 n3 = -200:200;
 x3 = 5*cos(0.49*pi*n3) + 5*cos(0.51*pi*n3);
+n4 = -50:50;
+x4 = exp(0.1*n4).*(stepseq(-20,-50,50)-stepseq(10,-50,50));
 
 figure;
 subplot(2,2,1); stem(n1,x1); title('plot of function 1');
 subplot(2,2,2); stem(n2,x2); title('plot of function 2');
 subplot(2,2,3); stem(n3,x3); title('plot of function 3');
+subplot(2,2,4); stem(n4,x4); title('plot of function 4');
+
+%% P2.3
+% Generate the folowoing periodic sequnces and plot their samples using the
+% stem function over the indicated amount of periods
+
+% 1). [...,-2,-1,0,1,2,...]  plot 5 periods
+%                ^ 
+
+seq1 = [-2,-1,0,1,2];  % sequence
+nseq1 = -2:2;
+N1 = 5; % period in number of samples
+P1 = 5; % amount of periods to plot
+n1 = nseq1(1):P1*N1-(abs(nseq1(1))+1);
+x1 = [seq1,zeros(1,(P1-1)*N1)];
+
+for k = 1+N1:P1*N1
+    x1(k) = x1(k-N1);
+end
+
+figure;
+subplot(1,2,1); stem(n1,x1); title('5 periods of sequence 1');
+
+
+
+
+
 
 %% P2.5
 % * 1) generate plot of exp(0,1,pi*n) for -100 <= n <= 100 using 'stem'
@@ -98,4 +128,6 @@ subplot(2,2,4); plot(m,imagX); grid off;
 % for x[n] = cos(0.2*pi*n)+0.5*cos(0.6*pi*n) and echo component aplha(n-k),
 % find:
 % * 1). the 
+
+
 
