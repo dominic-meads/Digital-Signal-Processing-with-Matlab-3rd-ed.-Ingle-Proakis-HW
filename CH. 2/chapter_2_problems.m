@@ -66,6 +66,35 @@ subplot(1,2,2); stem(n1,imag(x1)); title('plot of function 1 (imaginary)');
 
 figure; stem(n2,x2); title('plot of function 2');
 
+
+%% P2.4
+% let x[n] = [2,4,-1,1,-5,4,7]
+%                    ^
+% Generate and plot the samples from the following sequences using the stem
+% function
+%
+% 1). x1[n] = 2*x[n-3]+3*x[n+4]-x[n]
+
+n1 = -3:3;
+n11 = n1-3;  % first term n
+n12 = n1+4;  % second term n
+n13 = n1;    % third term n same as original
+
+x1 = [2,4,-1,1,-5,4,7]; % (the sequence values do not change, only their time shifts)
+
+nmin = min(min(n11),min(n12));
+nmax = max(max(n11),max(n12));
+nnew = nmin:nmax;
+
+x11 = [x1,zeros(1,length(nnew)-length(x1))];
+x12 = [zeros(1,length(nnew)-length(x1)),x1];
+x13 = [zeros(1,3),x1,zeros(1,4)];
+
+x1new = x11+x12+x13;
+figure;
+stem(nnew,x1new);
+
+
 %% P2.7
 % * 1). modify the evenodd function to accept any arbitray sequence and
 %     decomposes it into conjugate-symmetric and conjugate-antisymmetric 
@@ -128,6 +157,9 @@ subplot(2,2,4); plot(m,imagX); grid off;
 % for x[n] = cos(0.2*pi*n)+0.5*cos(0.6*pi*n) and echo component aplha(n-k),
 % find:
 % * 1). the 
+
+
+
 
 
 
